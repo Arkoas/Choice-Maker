@@ -1,0 +1,87 @@
+import javax.swing.*;
+import java.awt.Container;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Collections;
+import java.util.LinkedList;
+
+public class guesserGUI extends JFrame {
+	LinkedList<String> guesser = new LinkedList<String>();
+	
+	private JLabel titleL;
+	private JTextField inputTF;
+	private JButton button1, button2,button3;
+
+	private final int WIDTH = 500, HEIGHT = 500;
+
+	public guesserGUI() {
+		// Create Components
+		titleL = new JLabel("Welcome", SwingConstants.CENTER);
+		inputTF = new JTextField();
+		button1 = new JButton("Add an option");
+		button2 = new JButton("Randomize");
+		button3 = new JButton("See the current pool");
+
+		// Frame Settings & Layout
+		setTitle("Decision Maker");
+		setSize(WIDTH, HEIGHT);
+		setLocationRelativeTo(null);
+		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		Container c = getContentPane();
+		c.setLayout(new GridLayout(5, 1));
+		c.add(titleL);
+		c.add(inputTF);
+		c.add(button1);
+		c.add(button2);
+		c.add(button3);
+
+		// Event handler
+		eventHandler hndlr = new eventHandler();
+		button1.addActionListener(hndlr);
+		button2.addActionListener(hndlr);
+		button3.addActionListener(hndlr);
+
+	}
+
+	private class eventHandler implements ActionListener {
+		public void actionPerformed(ActionEvent hndlr) {
+			if (hndlr.getSource() == button1) {
+				if (inputTF.getText().isEmpty())
+					titleL.setText("Please enter a choice below");
+				
+				else {
+					guesser.add(inputTF.getText());
+					titleL.setText(guesser.peekLast() + " was added to the selection pool.");
+					inputTF.setText("");
+				}
+
+			}
+			
+			if (hndlr.getSource() == button2){
+				if(guesser.isEmpty())
+					titleL.setText("The selection pool is empty");
+				else{
+					Collections.shuffle(guesser);
+					titleL.setText(guesser.peek()+" was selected!");
+				}
+					
+			}
+			
+			if (hndlr.getSource() == button3){
+				
+				StringBuilder sb = new StringBuilder();
+				
+				for(String string : guesser)
+					sb.append(string+"\n");
+				
+				JOptionPane.showMessageDialog(null, sb.toString());
+				sb = null;
+				
+			}
+			
+		}
+	}
+
+}
