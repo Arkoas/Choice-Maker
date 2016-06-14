@@ -7,8 +7,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 
 public class guesserGUI extends JFrame {
-	LinkedList<String> guesser = new LinkedList<String>();
 	
+	LinkedList<String> guesser = new LinkedList<String>();	
 	private JLabel titleL;
 	private JTextField inputTF;
 	private JButton button1, button2,button3;
@@ -42,6 +42,7 @@ public class guesserGUI extends JFrame {
 		button1.addActionListener(hndlr);
 		button2.addActionListener(hndlr);
 		button3.addActionListener(hndlr);
+		this.getRootPane().setDefaultButton(button1);
 
 	}
 
@@ -70,14 +71,17 @@ public class guesserGUI extends JFrame {
 			}
 			
 			if (hndlr.getSource() == button3){
+				if(guesser.isEmpty())
+					JOptionPane.showMessageDialog(null, "The selection pool is empty");
 				
+				else{
 				StringBuilder sb = new StringBuilder();
 				
 				for(String string : guesser)
 					sb.append(string+"\n");
 				
 				JOptionPane.showMessageDialog(null, sb.toString());
-				sb = null;
+				sb = null;}
 				
 			}
 			
